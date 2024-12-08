@@ -71,7 +71,9 @@
                     "INSERT INTO " + schema + ".TOPIC VALUES (NEXT VALUE FOR TOPIC_GEN, 'Computer Science')",
                     "INSERT INTO " + schema + ".COMMENT VALUES (NEXT VALUE FOR COMMENT_GEN, 'Skeleton code', 1)",
                     "INSERT INTO " + schema + ".COMMENT VALUES (NEXT VALUE FOR COMMENT_GEN, 'for homework1', 1)",
-                    "INSERT INTO " + schema + ".CREDENTIALS VALUES (NEXT VALUE FOR CREDENTIALS_GEN, 'sob', 'sob')"
+                    "INSERT INTO " + schema + ".CREDENTIALS VALUES (NEXT VALUE FOR CREDENTIALS_GEN, 'sob', 'sob')",
+                    "INSERT INTO " + schema + ".CREDENTIALS VALUES (NEXT VALUE FOR USER_GEN, 'john_doe', 'john123')",
+                    "INSERT INTO " + schema + ".CREDENTIALS VALUES (NEXT VALUE FOR USER_GEN, 'jane_doe', 'jane123')"
                 };
 
                 for (String datum : data) {

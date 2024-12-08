@@ -22,6 +22,30 @@ public class UserFacadeREST extends AbstractFacade<User> {
         super(User.class);
     }
 
+    // // GET endpoint to fetch all users
+    // @GET
+    // @Secured
+    // public Response findAllCustomers() {
+    //     List<User> users = super.findAll();
+        
+    //     // Mask passwords in the response
+    //     users.forEach(user -> user.setPassword(null));
+
+    //     return Response.ok(users).build();
+    // }
+
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<User> getAllCustomers() {
+        try {
+            return em.createQuery("SELECT u FROM User u", User.class).getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new WebApplicationException("Could not retrieve customers.", Response.Status.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     // GET /rest/api/v1/customer
     @GET
     public List<User> findAllCustomers() {
@@ -38,6 +62,13 @@ public class UserFacadeREST extends AbstractFacade<User> {
 
         return users;
     }
+
+    // @GET
+    // @Path("/test-auth")
+    // @Produces(MediaType.TEXT_PLAIN)
+    // public String testAuth() {
+    //     return "API is reachable!";
+    // }
 
     // GET /rest/api/v1/customer/{id}
     @GET
@@ -76,6 +107,22 @@ public class UserFacadeREST extends AbstractFacade<User> {
         em.merge(existingUser);
 
         return Response.ok(existingUser).build();
+    }
+
+    // Add this method to UserFacadeREST.java
+    @POST
+    @Secured
+    public Response createCustomer(User newUser) {
+        if (newUser == null || newUser.getUsername() == null || newUser.getPassword() == null) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Invalid user data").build();
+        }
+
+        try {
+            em.persist(newUser); // Save the user to the database
+            return Response.status(Response.Status.CREATED).entity(newUser).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Failed to create user").build();
+        }
     }
 
     @Override
